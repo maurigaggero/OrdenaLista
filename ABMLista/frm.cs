@@ -29,20 +29,27 @@ namespace ABMLista
         #region EVENTOS
         private void BtAgregar_Click(object sender, EventArgs e)
         {
+            Alumnos.AgregarNota(txtNota.Text);
+            
+            lblNota.Text = Alumnos.MostrarNotas();
 
-            if (Alumnos.Agregar(txt.Text))
-            {
-                lbl.Text = Alumnos.MostrarLista();
-            }
-            else
-            {
-                MessageBox.Show("e r r o r");
-            }
+            Alumnos.Agregar(txt.Text);
+
+            lbl.Text = Alumnos.MostrarLista();
+
+            //if (Alumnos.Agregar(txt.Text)
+            //{
+            //    lbl.Text = Alumnos.MostrarLista();
+            //}
+            //else
+            //{
+            //    MessageBox.Show("e r r o r");
+            //}
 
             txt.SelectAll();
             txt.Focus();
-
         }
+
 
         private void BtBuscar_Click(object sender, EventArgs e)
         {
@@ -76,6 +83,7 @@ namespace ABMLista
         {
             lbl2.Text = Alumnos.Ordenar();
             lbl.Text = Alumnos.MostrarLista();
+            lblNota.Text = Alumnos.MostrarNotas();
         }
 
         #endregion

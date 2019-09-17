@@ -10,15 +10,17 @@ namespace ABMLista.Clases
     {
         #region PROPIEDADES
         private string[] lista = new string[1];
+        public string[] notas = new string[1];
 
         private int ProximaPosicion = 0;
+        private int prox = 0;
         #endregion
 
         #region CONSTRUCTOR
         #endregion
 
         #region METODOS
-        public bool Agregar(string aTexto)
+        public bool Agregar(string nombre)
         {
             bool Resp = false;
             try
@@ -28,7 +30,7 @@ namespace ABMLista.Clases
                     this.AgregaRegistro(1);
                 }
 
-                lista[ProximaPosicion] = aTexto;
+                lista[ProximaPosicion] = nombre;
                 ProximaPosicion++;
                 Resp = true;
             }
@@ -39,6 +41,36 @@ namespace ABMLista.Clases
 
             return Resp;
         }
+
+        public bool AgregarNota(string nota)
+        {
+            bool Resp = false;
+            try
+            {
+                if (prox == notas.Length)
+                {
+                    this.AgregaNota(1);
+                }
+
+                notas[prox] = nota;
+                prox++;
+                Resp = true;
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+
+            return Resp;
+        }
+
+        //public void AgregarNota(string nota)
+        //{
+        //    for (int i = 0; i < notas.Length - 1; i++)
+        //    {
+        //        notas[i] = nota;
+        //    }
+        //}
 
         public string MostrarLista()
         {
@@ -53,6 +85,27 @@ namespace ABMLista.Clases
                 }
             }
             return Respuesta;
+        }
+        public string MostrarNotas()
+        {
+
+            string Respuesta = "";
+            if (prox > 0)
+            {
+                Respuesta = notas[0];
+                for (int i = 1; i < prox; i++)
+                {
+                    Respuesta = Respuesta + "\r\n" + notas[i];
+                }
+            }
+            return Respuesta;
+        }
+
+
+        private void AgregaNota(int incremento)
+        {
+            string[] TempX = new string[notas.Length + incremento];
+            notas = this.Copiar(notas, TempX);
         }
 
         private void AgregaRegistro(int incremento)
@@ -109,6 +162,14 @@ namespace ABMLista.Clases
                 this.lista[ProximaPosicion - 1] = null;
                 ProximaPosicion = ProximaPosicion - 1;
                 AgregaRegistro(-1);
+
+                for (int i = Pos; i < prox - 1; i++)
+                {
+                    this.notas[i] = this.notas[i + 1];
+                }
+                this.notas[prox - 1] = null;
+                prox = prox - 1;
+                AgregaNota(-1);
             }
 
             return Resp;
@@ -117,9 +178,12 @@ namespace ABMLista.Clases
         public string Ordenar()
         {
             string[] listaOrden = new string[lista.Length];
+            string[] notasOrden = new string[notas.Length];
+
             string Respuesta = "";
 
             Copiar(lista, listaOrden);
+            Copiar(notas, notasOrden);
 
             if (listaOrden.Length > 1)
             {
@@ -130,8 +194,14 @@ namespace ABMLista.Clases
                         if ((listaOrden[j].CompareTo(listaOrden[j + 1])) > 0)
                         {
                             string temp2 = "";
+                            string temp3 = "";
 
                             temp2 = listaOrden[j];
+                            temp3 = notasOrden[j];
+
+                            notasOrden[j] = notasOrden[j + 1];
+                            notasOrden[j + 1] = temp3;
+
                             listaOrden[j] = listaOrden[j + 1];
                             listaOrden[j + 1] = temp2;
                         }
@@ -141,7 +211,7 @@ namespace ABMLista.Clases
 
             for (int i = 0; i < listaOrden.Length; i++)
             {
-                Respuesta = Respuesta + listaOrden[i] + "\r\n";
+                Respuesta = Respuesta + listaOrden[i] + " = " + notasOrden[i] + "\r\n";
             }
             return Respuesta;
         }
