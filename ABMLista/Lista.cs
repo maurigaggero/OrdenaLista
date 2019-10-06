@@ -64,14 +64,6 @@ namespace ABMLista.Clases
             return Resp;
         }
 
-        //public void AgregarNota(string nota)
-        //{
-        //    for (int i = 0; i < notas.Length - 1; i++)
-        //    {
-        //        notas[i] = nota;
-        //    }
-        //}
-
         public string MostrarLista()
         {
 
